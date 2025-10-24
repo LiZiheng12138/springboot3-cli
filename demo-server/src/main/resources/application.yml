@@ -1,0 +1,53 @@
+server:
+  port: 8789
+spring:
+  datasource:
+    dynamic:
+      primary: primary
+    primary:
+      jdbc-url: jdbc:mysql://localhost:3306/yuding-test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: Aa123456!
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    secondary:
+      jdbc-url: jdbc:mysql://localhost:3306/yuding-test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      username: root
+      password: Aa123456!
+      driver-class-name: com.mysql.cj.jdbc.Driver
+  mvc:
+    pathmatch:
+      matching-strategy: ANT_PATH_MATCHER
+  ai:
+    openai:
+      api-key:
+      base-url: https://api.openai.com/v1
+      chat:
+        options:
+          model: gpt-4o-mini
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.demo.entity
+
+mybatis-flex:
+  global-config:
+    print-banner: true
+#    logic-delete-column: status
+  mapper-locations: classpath*:mapper/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: true
+
+###重要！重要！重要！
+
+# springdoc-openapi（knife4j）项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html  #访问路径
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs #访问路径
+  group-configs:
+    - group: 'default' #默认分组
+      paths-to-match: '/**' #要映射的访问路径，我这里直接使用了通配符，所有都用，也可以根据自己不同业务的需要自己设置
+      packages-to-scan: com.example.demo.controller #要扫描的包路径，也可以根据组进行细分，我这里直接在controller下了
