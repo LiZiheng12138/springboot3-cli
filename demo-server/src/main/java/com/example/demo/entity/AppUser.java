@@ -13,7 +13,7 @@ import java.util.Date;
  */
 @Data
 @Table(value = "app_user")
-public class AppUserEntity {
+public class AppUser {
 
     /**
      * 主键ID，自增

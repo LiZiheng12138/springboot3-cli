@@ -1,6 +1,8 @@
 server:
   port: 8789
 spring:
+  application:
+    name: springboot3-demo
   datasource:
     dynamic:
       primary: primary
@@ -25,17 +27,17 @@ spring:
         options:
           model: gpt-4o-mini
 
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.example.demo.entity
+#mybatis:
+#  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.example.demo.entity
 
-mybatis-flex:
-  global-config:
-    print-banner: true
-#    logic-delete-column: status
-  mapper-locations: classpath*:mapper/**/*.xml
-  configuration:
-    map-underscore-to-camel-case: true
+#mybatis-flex:
+#  global-config:
+#    print-banner: true
+##    logic-delete-column: status
+#  mapper-locations: classpath*:mapper/**/*.xml
+#  configuration:
+#    map-underscore-to-camel-case: true
 
 ###重要！重要！重要！
 

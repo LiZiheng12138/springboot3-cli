@@ -1,5 +1,7 @@
 package com.example.demo.config;
- 
+
+
+
 import com.mybatisflex.core.audit.AuditManager;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
@@ -13,15 +15,15 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import javax.sql.DataSource;
 
 /**
- * 配置sql打印
+ * 配置sql打印 注意 mybatis-flex禁止使用
  *
  * @author ***
  * @date 2023/11/09 0009 17:35
  */
-@Configuration
+//@Configuration
 public class MyBatisFlexConfiguration {
     private static final Logger logger = LoggerFactory.getLogger("mybatis-flex-sql");
- 
+
     public MyBatisFlexConfiguration() {
         //开启审计功能
         AuditManager.setAuditEnable(true);

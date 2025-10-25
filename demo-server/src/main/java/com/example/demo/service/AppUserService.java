@@ -1,10 +1,10 @@
 package com.example.demo.service;
-import com.example.demo.entity.AppUserEntity;
+import com.example.demo.entity.AppUser;
 import java.util.List;
 public interface AppUserService {
-    public List<AppUserEntity> findAll();
+    public List<AppUser> findAll();
 
-    public void add(AppUserEntity user);
+    public void add(AppUser user);
 
-    public AppUserEntity findByPhone(String phone);
+    public AppUser findByPhone(String phone);
 }

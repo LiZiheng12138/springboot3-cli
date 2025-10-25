@@ -14,9 +14,9 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
-          <entry name="$MAVEN_REPOSITORY$/com/mybatis-flex/mybatis-flex-processor/1.9.8/mybatis-flex-processor-1.9.8.jar" />
-          <entry name="$MAVEN_REPOSITORY$/com/mybatis-flex/mybatis-flex-annotation/1.9.8/mybatis-flex-annotation-1.9.8.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.16/mybatis-3.5.16.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/mybatis-flex/mybatis-flex-processor/1.11.3/mybatis-flex-processor-1.11.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/com/mybatis-flex/mybatis-flex-annotation/1.11.3/mybatis-flex-annotation-1.11.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mybatis/mybatis/3.5.19/mybatis-3.5.19.jar" />
         </processorPath>
         <module name="common" />
         <module name="demo-server" />

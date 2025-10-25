@@ -18,7 +18,7 @@ public class EntityGenerator {
     private static final String OUTPUT_PATH = "demo-server/src/main/java/";
 
     public static void main(String[] args) throws Exception {
-        generateEntity("app_user"); // 表名
+        generateEntity("student"); // 表名
     }
 
     public static void generateEntity(String tableName) throws Exception {
@@ -59,27 +59,27 @@ public class EntityGenerator {
         writeToFile(OUTPUT_PATH + PACKAGE_ENTITY.replace(".", "/"), entityName + ".java", sb.toString());
 
         // 生成 EntityDef
-        String defName = toCamelCase(tableName, true) + "TableDef";
-        sb = new StringBuilder();
-        sb.append("package ").append(PACKAGE_ENTITY_DEF).append(";\n\n");
-        sb.append("import com.mybatisflex.core.TableDef;\n");
-        sb.append("import com.mybatisflex.core.query.QueryColumn;\n\n");
-        sb.append("public class ").append(defName).append(" extends TableDef {\n");
-        sb.append("    public static final ").append(defName).append(" ").append(tableName.toUpperCase()).append(" = new ").append(defName).append("();\n\n");
+//        String defName = toCamelCase(tableName, true) + "TableDef";
+//        sb = new StringBuilder();
+//        sb.append("package ").append(PACKAGE_ENTITY_DEF).append(";\n\n");
+//        sb.append("import com.mybatisflex.core.TableDef;\n");
+//        sb.append("import com.mybatisflex.core.query.QueryColumn;\n\n");
+//        sb.append("public class ").append(defName).append(" extends TableDef {\n");
+//        sb.append("    public static final ").append(defName).append(" ").append(tableName.toUpperCase()).append(" = new ").append(defName).append("();\n\n");
+//
+//        for (ColumnInfo col : columns) {
+//            sb.append("    public final QueryColumn ").append(toCamelCase(col.name, true))
+//                    .append(" = new QueryColumn(this, \"").append(col.name).append("\");\n");
+//        }
+//
+//        sb.append("\n    private ").append(defName).append("() {\n");
+//        sb.append("        super(\"").append(tableName).append(", ").append("null").append("\");\n");
+//        sb.append("    }\n");
+//        sb.append("}\n");
+//
+//        writeToFile(OUTPUT_PATH + PACKAGE_ENTITY_DEF.replace(".", "/"), defName + ".java", sb.toString());
 
-        for (ColumnInfo col : columns) {
-            sb.append("    public final QueryColumn ").append(toCamelCase(col.name, true))
-                    .append(" = new QueryColumn(this, \"").append(col.name).append("\");\n");
-        }
-
-        sb.append("\n    private ").append(defName).append("() {\n");
-        sb.append("        super(\"").append(tableName).append(", ").append("null").append("\");\n");
-        sb.append("    }\n");
-        sb.append("}\n");
-
-        writeToFile(OUTPUT_PATH + PACKAGE_ENTITY_DEF.replace(".", "/"), defName + ".java", sb.toString());
-
-        System.out.println("生成完成: " + entityName + " & " + defName);
+        System.out.println("生成完成: " + entityName );
     }
 
     private static void writeToFile(String path, String fileName, String content) throws Exception {
