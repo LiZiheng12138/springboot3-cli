@@ -9,6 +9,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 public class SpringbootDemoApplication {
     public static void main(String[] args) {
         SpringApplication.run(SpringbootDemoApplication.class, args);
-        System.out.println("🚀 Spring Boot 3.0 Demo Started Successfully!");
+        System.out.println("🚀 Spring Boot 3.0 Started Successfully!");
     }
 }

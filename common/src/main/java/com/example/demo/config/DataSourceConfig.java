@@ -18,7 +18,6 @@ import java.util.Map;
 public class DataSourceConfig {
 
     @Bean(name = "primaryDataSource")
-    @Primary
     @ConfigurationProperties(prefix = "spring.datasource.primary")
     public DataSource primaryDataSource() {
         return DataSourceBuilder.create().build();
@@ -31,6 +30,7 @@ public class DataSourceConfig {
     }
 
     @Bean
+    @Primary
     public DataSource dynamicDataSource(
             @Qualifier("primaryDataSource") DataSource primary,
             @Qualifier("secondaryDataSource") DataSource secondary

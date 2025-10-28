@@ -1,5 +1,6 @@
 package com.example.demo.dao;
 
+import com.example.demo.aop.DataSource;
 import com.example.demo.entity.AppUser;
 import com.example.demo.mapper.AppUserMapper;
 import com.mybatisflex.core.query.QueryWrapper;
@@ -42,15 +43,9 @@ public class AppUserDao {
         if (phone == null || phone.trim().isEmpty()) {
             throw new IllegalArgumentException("手机号不能为空");
         }
-
         QueryWrapper queryWrapper = QueryWrapper.create()
                 .select()
                 .where(APP_USER.APP_USER_PHONE.eq(phone));
-
-        // 添加调试日志
-        System.out.println("查询手机号: " + phone);
-        System.out.println("QueryWrapper: " + queryWrapper.toSQL());
-
         AppUser account = appUserMapper.selectOneByQuery(queryWrapper);
         System.out.println(account);
         return account;
