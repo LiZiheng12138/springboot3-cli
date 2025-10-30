@@ -12,6 +12,7 @@
     <modules>
         <module>demo-server</module>
         <module>common</module>
+        <module>auth</module>
     </modules>
 
     <parent>
@@ -97,7 +98,6 @@
                 <version>${mybatis-flex.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
-
             </dependency>
         </dependencies>
     </dependencyManagement>

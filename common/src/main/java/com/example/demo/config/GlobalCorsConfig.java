@@ -38,6 +38,8 @@ public class GlobalCorsConfig {
         source.registerCorsConfiguration("/doc.html", config);
         source.registerCorsConfiguration("/swagger-ui.html", config);
         source.registerCorsConfiguration("/v3/api-docs/**", config);
+        // OAuth2端点跨域
+        source.registerCorsConfiguration("/oauth2/**", config);
         return new CorsFilter(source);
     }
 }
