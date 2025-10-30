@@ -1,0 +1,12 @@
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/handle/DataSourceContextHolder.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/config/DataSourceConfig.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/common/DynamicDataSource.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/common/Result.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/config/MyBatisFlexConfiguration.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/exception/ServiceException.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/config/Knife4jConfig.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/aop/DataSourceAspect.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/aop/DataSource.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/config/GlobalCorsConfig.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/exception/GlobalExceptionHandler.java
+/Users/liziheng/springboot/springboot-demo/common/src/main/java/com/example/demo/config/WebConfig.java
