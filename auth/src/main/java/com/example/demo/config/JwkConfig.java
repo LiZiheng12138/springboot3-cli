@@ -4,30 +4,34 @@ import com.nimbusds.jose.jwk.*;
 import com.nimbusds.jose.jwk.source.*;
 import com.nimbusds.jose.proc.SecurityContext;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.oauth2.jwt.*;
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
-@Component
+@Configuration
 public class JwkConfig {
 
+
     @Bean
-    public JwtEncoder jwtEncoder() {
-        // 使用对称密钥（HMAC）而不是RSA密钥对
-        // 在生产环境中，应该从配置文件中读取密钥
-        String secret = "my-secret-key-for-jwt-signing-which-should-be-at-least-32-bytes-long";
-        SecretKey secretKey = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
-        
-        // 构建 JWK
-        JWK jwk = new OctetSequenceKey.Builder(secretKey)
-                .keyID(UUID.randomUUID().toString())
+    public JWKSource<SecurityContext> jwkSource() throws Exception {
+        KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
+        keyPairGenerator.initialize(2048);
+        KeyPair keyPair = keyPairGenerator.generateKeyPair();
+
+        RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
+                .privateKey(keyPair.getPrivate())
+                .keyID("demo-key")
                 .build();
-        
-        // 构建 JWKSource 并创建 JwtEncoder
-        JWKSource<SecurityContext> jwkSource = new ImmutableJWKSet<>(new JWKSet(jwk));
-        return new NimbusJwtEncoder(jwkSource);
+
+        JWKSet jwkSet = new JWKSet(rsaKey);
+        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
     }
 }

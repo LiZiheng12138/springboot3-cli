@@ -44,7 +44,6 @@
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-oauth2-authorization-server</artifactId>
-            <version>1.5.1</version>  <!-- 或最新 1.x 版本 -->
         </dependency>
 
         <!-- JWT 支持 -->
