@@ -13,6 +13,7 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.SecureRandom;
 import java.security.interfaces.RSAPublicKey;
 import java.util.UUID;
 
@@ -22,8 +23,12 @@ public class JwkConfig {
 
     @Bean
     public JWKSource<SecurityContext> jwkSource() throws Exception {
+        // 固定随机种子，保证生成的 keypair 一致
+        SecureRandom random = SecureRandom.getInstance("SHA1PRNG");
+        random.setSeed("fixed-seed-demo".getBytes());
+
         KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-        keyPairGenerator.initialize(2048);
+        keyPairGenerator.initialize(2048, random);
         KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
         RSAKey rsaKey = new RSAKey.Builder((RSAPublicKey) keyPair.getPublic())
@@ -32,6 +37,6 @@ public class JwkConfig {
                 .build();
 
         JWKSet jwkSet = new JWKSet(rsaKey);
-        return (jwkSelector, securityContext) -> jwkSelector.select(jwkSet);
+        return (jwkSelector, ctx) -> jwkSelector.select(jwkSet);
     }
 }
