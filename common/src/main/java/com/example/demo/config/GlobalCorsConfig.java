@@ -2,6 +2,8 @@ package com.example.demo.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
@@ -10,6 +12,7 @@ import org.springframework.web.filter.CorsFilter;
  * 全局跨域配置
  */
 @Configuration
+@Order(Ordered.HIGHEST_PRECEDENCE) // 确保最优先执行
 public class GlobalCorsConfig {
 
     @Bean
@@ -17,7 +20,7 @@ public class GlobalCorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // 允许所有域名（生产环境可换成前端域名）
-        config.addAllowedOriginPattern("*");
+        config.addAllowedOriginPattern("http://localhost:8003");
 
         // 是否允许发送 Cookie
         config.setAllowCredentials(true);
@@ -30,6 +33,9 @@ public class GlobalCorsConfig {
 
         // 预检请求的缓存时间（秒）
         config.setMaxAge(3600L);
+
+        config.addAllowedHeader("Authorization");
+
 
         // 注册跨域配置
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

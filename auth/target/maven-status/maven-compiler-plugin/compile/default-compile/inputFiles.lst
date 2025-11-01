@@ -1,7 +1,0 @@
-/Users/liziheng/springboot/springboot-demo/auth/src/main/java/com/example/demo/entity/UserEntity.java
-/Users/liziheng/springboot/springboot-demo/auth/src/main/java/com/example/demo/mapper/UserMapper.java
-/Users/liziheng/springboot/springboot-demo/auth/src/main/java/com/example/demo/config/SecurityConfig.java
-/Users/liziheng/springboot/springboot-demo/auth/src/main/java/com/example/demo/config/AuthorizationServerConfig.java
-/Users/liziheng/springboot/springboot-demo/auth/src/main/java/com/example/demo/service/CustomUserDetailsService.java
-/Users/liziheng/springboot/springboot-demo/auth/src/main/java/com/example/demo/config/AuthorizationServerInitializer.java
-/Users/liziheng/springboot/springboot-demo/auth/src/main/java/com/example/demo/AuthServer.java

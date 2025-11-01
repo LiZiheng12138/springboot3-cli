@@ -1,8 +1,0 @@
-com/example/demo/service/CustomUserDetailsService.class
-com/example/demo/config/AuthorizationServerConfig.class
-com/example/demo/config/SecurityConfig.class
-com/example/demo/entity/table/UserEntityTableDef.class
-com/example/demo/AuthServer.class
-com/example/demo/config/AuthorizationServerInitializer.class
-com/example/demo/entity/UserEntity.class
-com/example/demo/mapper/UserMapper.class

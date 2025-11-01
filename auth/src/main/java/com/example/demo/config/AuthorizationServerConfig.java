@@ -1,13 +1,21 @@
 package com.example.demo.config;
 
+import com.example.demo.common.Result;
+import com.example.demo.handler.JsonAuthenticationFailureHandler;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpMethod;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtEncoder;
 import org.springframework.security.oauth2.server.authorization.JdbcOAuth2AuthorizationService;
@@ -19,9 +27,14 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.oauth2.server.authorization.config.annotation.web.configurers.OAuth2AuthorizationServerConfigurer;
 import org.springframework.security.oauth2.server.authorization.settings.AuthorizationServerSettings;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class AuthorizationServerConfig {
@@ -33,11 +46,13 @@ public class AuthorizationServerConfig {
 
         // 自定义未登录时的跳转（防止直接返回 403）
         http.exceptionHandling(exceptions ->
-                exceptions.authenticationEntryPoint(new LoginUrlAuthenticationEntryPoint("/login"))
+                exceptions.authenticationEntryPoint(restAuthenticationEntryPoint())
         );
 
-        // 配置CORS支持
-        http.cors(cors -> {});
+        // 允许预检请求
+        http.cors(Customizer.withDefaults());
+
+
 
         return http.build();
     }
@@ -73,5 +88,20 @@ public class AuthorizationServerConfig {
     @Bean
     public JwtEncoder jwtEncoder(JWKSource<SecurityContext> jwkSource) {
         return new NimbusJwtEncoder(jwkSource);
+    }
+
+    @Bean
+    public AuthenticationEntryPoint restAuthenticationEntryPoint() {
+        return new AuthenticationEntryPoint() {
+            private final ObjectMapper objectMapper = new ObjectMapper();
+
+            @Override
+            public void commence(HttpServletRequest request, HttpServletResponse response,
+                                 AuthenticationException authException) throws IOException {
+                response.setContentType("application/json;charset=UTF-8");
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+                response.getWriter().write(objectMapper.writeValueAsString(Result.fail(401, authException.getMessage())));
+            }
+        };
     }
 }
