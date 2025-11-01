@@ -1,25 +1,23 @@
 package com.example.demo.exception;
 
 import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.oauth2.server.resource.web.BearerTokenResolver;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class CustomBearerTokenResolver implements BearerTokenResolver {
-    
-    private static final Logger logger = LoggerFactory.getLogger(CustomBearerTokenResolver.class);
-    
+
     @Override
     public String resolve(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
-        logger.debug("Authorization header: {}", authorization);
+        log.info("请求url:{}, token:{}", request.getRequestURI(),authorization);
         
         if (authorization != null && authorization.startsWith("Bearer ")) {
-            String token = authorization.substring(7);
-            logger.debug("Extracted token length: {}", token.length());
-            return token;
+            return authorization.substring(7);
         }
         return null;
     }
