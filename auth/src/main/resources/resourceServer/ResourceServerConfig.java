@@ -1,0 +1,52 @@
+package com.example.demo.config;
+
+import com.example.demo.handle.SecurityAuthHandlers;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.oauth2.jwt.JwtDecoder;
+import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
+import org.springframework.security.web.SecurityFilterChain;
+
+/**
+ *  资源服务器配置
+ *  复制到需要认证的资源服务中
+*/
+//@Configuration
+//@EnableWebSecurity
+//public class ResourceServerConfig {
+//
+//    @Bean
+//    public SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers(
+//                                "/doc.html",
+//                                "/swagger-ui/**",
+//                                "/v3/api-docs/**",
+//                                "/webjars/**",
+//                                "/public/**"
+//                        ).permitAll()
+//                        .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+//                        .anyRequest().authenticated()
+//                )
+//                .cors(Customizer.withDefaults())
+//                .oauth2ResourceServer(oauth2 -> oauth2
+//                        .jwt()
+//                        .and()
+//                        .authenticationEntryPoint(new SecurityAuthHandlers.JwtAuthenticationEntryPoint())
+//                )
+//                .exceptionHandling(exception -> exception
+//                        .accessDeniedHandler(new SecurityAuthHandlers.JwtAccessDeniedHandler())
+//                );
+//        return http.build();
+//    }
+//
+//    @Bean
+//    public JwtDecoder jwtDecoder() {
+//        return NimbusJwtDecoder.withJwkSetUri("http://127.0.0.1:8788/oauth2/jwks").build();
+//    }
+//}
