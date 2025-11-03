@@ -16,5 +16,6 @@ public class JsonAuthenticationFailureHandler implements org.springframework.sec
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType("application/json;charset=UTF-8");
         response.getWriter().write(mapper.writeValueAsString(Result.fail(401, "登录失败: " + exception.getMessage())));
+
     }
 }

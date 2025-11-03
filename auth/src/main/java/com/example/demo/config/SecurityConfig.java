@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.common.Result;
+import com.example.demo.handler.CustomAuthenticationEntryPoint;
 import com.example.demo.handler.JsonAuthenticationFailureHandler;
 import com.example.demo.handler.JsonAuthenticationSuccessHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -27,6 +28,7 @@ public class SecurityConfig {
     private final AuthenticationManager authenticationManager;
     private final JsonAuthenticationSuccessHandler successHandler;
     private final JsonAuthenticationFailureHandler failureHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
 
     @Bean
@@ -41,7 +43,9 @@ public class SecurityConfig {
                                 "/css/**",
                                 "/js/**",
                                 "/images/**",
-                                "/fonts/**"
+                                "/fonts/**",
+                                "/.well-known/**" // ✅ 放行 Chrome 探测请求
+
                         ).permitAll()
                         // 登录、授权、文档接口放行
                         .requestMatchers(
@@ -51,7 +55,8 @@ public class SecurityConfig {
                                 "/oauth2/jwks",
                                 "/swagger-ui/**",
                                 "/doc.html"
-                        ).permitAll()
+
+                ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
@@ -68,7 +73,7 @@ public class SecurityConfig {
                         })
                         .failureHandler((req, res, ex) -> {
                             res.setContentType("application/json;charset=UTF-8");
-                            res.setStatus(401);
+                            res.setStatus(200);
                             res.getWriter().write(new ObjectMapper().writeValueAsString(
                                     Result.fail(401, ex.getMessage())));
                         })
@@ -77,18 +82,7 @@ public class SecurityConfig {
 
                 // 核心：异常处理 → 一律返回 JSON
                 .exceptionHandling(e -> e
-                        .authenticationEntryPoint((req, res, ex) -> {
-                            res.setContentType("application/json;charset=UTF-8");
-                            res.setStatus(401);
-                            res.getWriter().write(new ObjectMapper().writeValueAsString(
-                                    Result.fail(401, ex.getMessage())));
-                        })
-                        .accessDeniedHandler((req, res, ex) -> {
-                            res.setContentType("application/json;charset=UTF-8");
-                            res.setStatus(403);
-                            res.getWriter().write(new ObjectMapper().writeValueAsString(
-                                    Result.fail(403, ex.getMessage())));
-                        })
+                        .authenticationEntryPoint(customAuthenticationEntryPoint)
                 );
         return http.build();
     }

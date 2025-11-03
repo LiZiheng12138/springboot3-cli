@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.common.Result;
+import com.example.demo.handler.CustomAuthenticationEntryPoint;
 import com.example.demo.handler.JsonAuthenticationFailureHandler;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nimbusds.jose.jwk.source.JWKSource;
@@ -37,7 +38,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
+@RequiredArgsConstructor
 public class AuthorizationServerConfig {
+
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
     @Bean
     @Order(1)
@@ -46,13 +50,14 @@ public class AuthorizationServerConfig {
 
         // 自定义未登录时的跳转（防止直接返回 403）
         http.exceptionHandling(exceptions ->
-                exceptions.authenticationEntryPoint(restAuthenticationEntryPoint())
+                exceptions.authenticationEntryPoint(customAuthenticationEntryPoint)
         );
+        // ✅ 启用 OpenID Connect 1.0
+        http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
+                .oidc(Customizer.withDefaults());
 
         // 允许预检请求
         http.cors(Customizer.withDefaults());
-
-
 
         return http.build();
     }
@@ -90,18 +95,18 @@ public class AuthorizationServerConfig {
         return new NimbusJwtEncoder(jwkSource);
     }
 
-    @Bean
-    public AuthenticationEntryPoint restAuthenticationEntryPoint() {
-        return new AuthenticationEntryPoint() {
-            private final ObjectMapper objectMapper = new ObjectMapper();
-
-            @Override
-            public void commence(HttpServletRequest request, HttpServletResponse response,
-                                 AuthenticationException authException) throws IOException {
-                response.setContentType("application/json;charset=UTF-8");
-                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
-                response.getWriter().write(objectMapper.writeValueAsString(Result.fail(401, authException.getMessage())));
-            }
-        };
-    }
+//    @Bean
+//    public AuthenticationEntryPoint restAuthenticationEntryPoint() {
+//        return new AuthenticationEntryPoint() {
+//            private final ObjectMapper objectMapper = new ObjectMapper();
+//
+//            @Override
+//            public void commence(HttpServletRequest request, HttpServletResponse response,
+//                                 AuthenticationException authException) throws IOException {
+//                response.setContentType("application/json;charset=UTF-8");
+//                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED); // 401
+//                response.getWriter().write(objectMapper.writeValueAsString(Result.fail(401, authException.getMessage())));
+//            }
+//        };
+//    }
 }
