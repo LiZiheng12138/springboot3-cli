@@ -8,6 +8,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
+import java.util.List;
+
 /**
  * 全局跨域配置
  */
@@ -20,7 +22,9 @@ public class GlobalCorsConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // 允许所有域名（生产环境可换成前端域名）
-        config.addAllowedOriginPattern("http://localhost:8003");
+        config.setAllowedOrigins(List.of("http://localhost:8003", "http://localhost:8004", "http://localhost:8005"));
+        config.setAllowCredentials(true); // 允许携带 Cookie
+
 
         // 是否允许发送 Cookie
         config.setAllowCredentials(true);

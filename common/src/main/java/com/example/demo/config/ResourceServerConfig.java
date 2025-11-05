@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.handle.SecurityAuthHandlers;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -16,7 +17,9 @@ import javax.crypto.spec.SecretKeySpec;
 
 @Configuration
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class ResourceServerConfig {
+    private final JwtCookieFilter jwtCookieFilter;
 
     @Bean
     public SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -27,11 +30,13 @@ public class ResourceServerConfig {
                                 "/swagger-ui/**",
                                 "/v3/api-docs/**",
                                 "/webjars/**",
-                                "/public/**"
+                                "/public/**",
+                                "/appUser/auth/callback/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
+                .addFilterBefore(jwtCookieFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())
                 .oauth2ResourceServer(oauth2 -> oauth2
                         .jwt()
