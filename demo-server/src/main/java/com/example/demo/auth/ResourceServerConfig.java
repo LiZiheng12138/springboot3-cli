@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.auth;
 
 import com.example.demo.handle.SecurityAuthHandlers;
 import lombok.RequiredArgsConstructor;
@@ -12,14 +12,11 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 public class ResourceServerConfig {
-    private final JwtCookieFilter jwtCookieFilter;
+    private final BizJwtAuthenticationFilter bizJwtAuthenticationFilter;
 
     @Bean
     public SecurityFilterChain resourceServerSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -31,20 +28,18 @@ public class ResourceServerConfig {
                                 "/v3/api-docs/**",
                                 "/webjars/**",
                                 "/public/**",
-                                "/appUser/auth/callback/**"
+                                "/user/auth/callback/**"
                         ).permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                         .anyRequest().authenticated()
                 )
-                .addFilterBefore(jwtCookieFilter, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
+                // 添加业务系统 token 校验 Filter
+                .addFilterBefore(bizJwtAuthenticationFilter,
+                        org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter.class)
                 .cors(Customizer.withDefaults())
-                .oauth2ResourceServer(oauth2 -> oauth2
-                        .jwt()
-                        .and()
-                        .authenticationEntryPoint(new SecurityAuthHandlers.JwtAuthenticationEntryPoint())
-                )
                 .exceptionHandling(exception -> exception
                         .accessDeniedHandler(new SecurityAuthHandlers.JwtAccessDeniedHandler())
+                        .authenticationEntryPoint(new SecurityAuthHandlers.JwtAuthenticationEntryPoint())
                 );
         return http.build();
     }

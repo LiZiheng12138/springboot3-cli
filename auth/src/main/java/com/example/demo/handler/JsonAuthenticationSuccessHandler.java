@@ -1,6 +1,6 @@
 package com.example.demo.handler;
 
-import com.example.demo.common.Result;
+import com.example.demo.entity.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.*;
 import org.springframework.security.core.Authentication;

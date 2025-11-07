@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -21,6 +22,7 @@ public class SecurityAuthHandlers {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     /** 未认证或 Token 无效 */
+    @Component
     public static class JwtAuthenticationEntryPoint implements AuthenticationEntryPoint {
         private static final ObjectMapper objectMapper = new ObjectMapper();
 

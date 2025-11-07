@@ -13,7 +13,7 @@ spring:
       password: Aa123456!
       driver-class-name: com.mysql.cj.jdbc.Driver
     secondary:
-      jdbc-url: jdbc:mysql://localhost:3306/ed-test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
+      jdbc-url: jdbc:mysql://localhost:3306/yuding-test?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
       username: root
       password: Aa123456!
       driver-class-name: com.mysql.cj.jdbc.Driver
@@ -55,3 +55,9 @@ springdoc:
     - group: 'default' #默认分组
       paths-to-match: '/**' #要映射的访问路径，我这里直接使用了通配符，所有都用，也可以根据自己不同业务的需要自己设置
       packages-to-scan: com.example.demo.controller #要扫描的包路径，也可以根据组进行细分，我这里直接在controller下了
+jwt:
+  keystore:
+    path: classpath:jwt.jks       # 或 file:/etc/secrets/jwt.jks
+    store-password: 123456      # 请用安全方式注入（Vault / env）
+    key-alias: jwt
+    key-password: 123456

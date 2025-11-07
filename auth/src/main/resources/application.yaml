@@ -2,14 +2,16 @@ server:
   port: 8788
 spring:
   datasource:
-    dynamic:
-      primary: primary
-    primary:
-      jdbc-url: jdbc:mysql://localhost:3306/auth?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-      username: root
-      password: Aa123456!
-      driver-class-name: com.mysql.cj.jdbc.Driver
-#      type: com.zaxxer.hikari.HikariDataSource  # 必须指定
+    url: jdbc:mysql://localhost:3306/auth?useSSL=false&serverTimezone=Asia/Shanghai
+    username: root
+    password: Aa123456!
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 30000
+      connection-timeout: 30000
+      max-lifetime: 1800000
 
   security:
     oauth2:
@@ -24,7 +26,9 @@ mybatis-flex:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-
+mybatis:
+  flex:
+    mapper-scan: com.example.demo.mapper # Mapper 扫描路径
 app:
   jwt:
     secret: very-very-secret-change-me-to-long-random-string-256bits

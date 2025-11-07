@@ -1,0 +1,55 @@
+package com.example.demo.config;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+
+import java.util.List;
+
+/**
+ * 全局跨域配置
+ */
+@Configuration
+@Order(Ordered.HIGHEST_PRECEDENCE) // 确保最优先执行
+public class GlobalCorsConfig {
+
+    @Bean
+    public CorsFilter corsFilter() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // 允许所有域名（生产环境可换成前端域名）
+        config.setAllowedOrigins(List.of("http://localhost:8003", "http://localhost:8004", "http://localhost:8005"));
+        config.setAllowCredentials(true); // 允许携带 Cookie
+
+
+        // 是否允许发送 Cookie
+        config.setAllowCredentials(true);
+
+        // 允许的请求头
+        config.addAllowedHeader("*");
+
+        // 允许的请求方式
+        config.addAllowedMethod("*");
+
+        // 预检请求的缓存时间（秒）
+        config.setMaxAge(3600L);
+
+        config.addAllowedHeader("Authorization");
+
+
+        // 注册跨域配置
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        // 静态资源跨域（Knife4j/doc.html）
+        source.registerCorsConfiguration("/doc.html", config);
+        source.registerCorsConfiguration("/swagger-ui.html", config);
+        source.registerCorsConfiguration("/v3/api-docs/**", config);
+        // OAuth2端点跨域
+        source.registerCorsConfiguration("/oauth2/**", config);
+        return new CorsFilter(source);
+    }
+}

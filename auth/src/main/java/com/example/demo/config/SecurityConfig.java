@@ -1,6 +1,6 @@
 package com.example.demo.config;
 
-import com.example.demo.common.Result;
+import com.example.demo.entity.Result;
 import com.example.demo.handler.CustomAuthenticationEntryPoint;
 import com.example.demo.handler.JsonAuthenticationFailureHandler;
 import com.example.demo.handler.JsonAuthenticationSuccessHandler;

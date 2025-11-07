@@ -4,7 +4,6 @@ import com.example.demo.entity.UserEntity;
 import com.example.demo.mapper.UserMapper;
 import com.mybatisflex.core.query.QueryWrapper;
 import jakarta.annotation.Resource;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.*;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         try{
 
             String roles = u.getRoles() == null ? "USER" : u.getRoles();
-            return User.withUsername(u.getUsername())
+            return User.withUsername(String.valueOf(u.getId()))
                     .password(u.getPassword())
                     .authorities(roles.split(","))
                     .roles(roles.split(","))
